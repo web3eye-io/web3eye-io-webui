@@ -18,6 +18,7 @@
         在发展过程中亦需先踏实基 础设施，而后经历漫长的场景迭代，而后规模应用。本文档的阅读对象主要包含参与构建 Web3.0 Eye 体系的工程师、架构师、产品经理、项目经理，
         以及 Web3.0 Eye 之外致力于构 建 Web3.0 基础设施的人。
       </p>
+      <h2>2 Web3.0 Eye 是什么</h2>
     </div>
     <div class='table2'>
       <ContentTable :content-table='contentTable' />
@@ -32,11 +33,14 @@ const ContentTable = defineAsyncComponent(() => import('../../BlogPage/ContentTa
 
 const contentTable = [
   {
-    label: '目录',
+    label: 'Web3Eye白皮书',
     header: 'root',
     children: [
       {
         label: '1  内容提要',
+        header: 'generic'
+      }, {
+        label: '2 Web3.0 Eye 是什么',
         header: 'generic'
       }
     ]

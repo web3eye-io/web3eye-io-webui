@@ -36,7 +36,7 @@ import metamask from '../assets/icon/metamask.webp'
 
 <style scoped lang='sass'>
 .q-layout__section--marginal
-  background-color: transparent
+  background-color: white
   color: $grey-9
   font-size: 16px
 
