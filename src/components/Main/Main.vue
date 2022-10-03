@@ -1,12 +1,16 @@
 <template>
   <div view='lHh Lpr lFf'>
-    <q-img :src='logo' style='width: 600px' fit='contain' />
+    <div class='row logo'>
+      <q-space />
+      <q-img :src='logo' style='width: 400px' fit='contain' />
+      <q-space />
+    </div>
     <q-input
       v-model="search"
-      debounce="500"
       rounded
       outlined
       disable
+      style='width: 650px;'
       placeholder='Coming soon'
     >
       <template v-slot:append>
@@ -36,10 +40,13 @@ const search = ref('')
 </script>
 
 <style scoped lang='sass'>
+.logo
+  margin: 10px 0 20px 0
+
 .looking
   margin: 10px 0 10px 0
   color: $grey-8
 
 .occupier
-  height: 200px
+  height: 240px
 </style>

@@ -39,7 +39,6 @@ import metamask from '../assets/icon/metamask.webp'
   font-size: 16px
 
 .logo
-  height: 96px
   width: 120px
 
 .tools
