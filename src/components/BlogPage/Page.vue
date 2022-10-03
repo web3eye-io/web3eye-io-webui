@@ -2,7 +2,7 @@
   <div class='content'>
     <div>
       <div class='title row'>
-        <q-item-label>White Paper</q-item-label>
+        <q-item-label>{{ title }}</q-item-label>
         <q-space />
         <div class='column'>
           <q-space />
@@ -24,6 +24,12 @@
           </div>
         </div>
       </div>
+      <div class='author row'>By
+        <div class='author-name'>{{ author }}</div>
+      </div>
+      <div class='time-hint'>
+        The article has {{ letters }} letters, read all will take about {{ timeNeed }} minutes.
+      </div>
     </div>
     <div class='blog-body'>
       <slot name='EN' />
@@ -33,9 +39,28 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
+import { ref, toRef, watch } from 'vue'
+
+interface Prop {
+  title: string
+  author: string
+  downloadUrl: string
+  letters: number
+  timeNeed: number
+}
+
+const prop = defineProps<Prop>()
+const title = toRef(prop, 'title')
+const author = toRef(prop, 'author')
+
+// TODO: use link for download url
 
 const lang = ref('EN')
+
+const emit = defineEmits<{(e: 'update:lang', v: string): void }>()
+watch(lang, () => {
+  emit('update:lang', lang.value)
+})
 
 </script>
 
@@ -59,4 +84,17 @@ const lang = ref('EN')
 
 .blog-body
   margin: 48px 0 48px 0
+
+.author
+  font-size: 18px
+  color: $grey-8
+  margin: 10px 0 10px 0
+
+.author-name
+  margin-left: 10px
+  font-weight: bold
+  color: blue
+
+.time-hint
+  color: $grey-8
 </style>
