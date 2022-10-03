@@ -6,6 +6,8 @@
         <a class='tools' href='#/whitepaper'>White Paper</a>
         <a class='tools' href='#/deck'>Deck</a>
         <a class='tools' href='#/blog'>Blog</a>
+        <a class='tools' href='#/daily'>Daily</a>
+        <a class='tools' href='#/plan'>Plan</a>
         <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px'>
           <q-tooltip>
             Coming soon
