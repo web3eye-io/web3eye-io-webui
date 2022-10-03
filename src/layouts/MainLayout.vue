@@ -7,7 +7,7 @@
         <a class='tools' href='#/deck'>Deck</a>
         <a class='tools' href='#/blog'>Blog</a>
         <a class='tools' href='#/daily'>Daily</a>
-        <a class='tools' href='#/plan'>Plan</a>
+        <a class='tools' href='#/schedule'>Schedule</a>
         <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px'>
           <q-tooltip>
             Coming soon
