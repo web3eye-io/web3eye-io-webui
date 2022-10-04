@@ -70,7 +70,7 @@ watch(lang, () => {
   color: $grey-8
   border-bottom: 4px solid $grey-4
   padding-bottom: 20px
-  width: calc(100% - 24px)
+  width: 100%
 
 .content
   max-width: 1440px

@@ -299,7 +299,7 @@ p
   color: $grey-10
 
 .article
-  width: 65%
+  width: 74%
   margin-right: 5%
   @media (max-width: $breakpoint-sm-min)
     width: 100%
@@ -312,7 +312,7 @@ p
     display: inline
 
 .table2
-  width: 30%
+  width: 20%
   @media (max-width: $breakpoint-sm-min)
     display: inline
 
