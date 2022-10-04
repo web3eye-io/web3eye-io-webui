@@ -6,6 +6,15 @@
       </div>
       <q-btn flat class='btn btn1' label='Download English Version' rounded />
       <q-btn flat class='btn btn2' label='下载中文版' rounded />
+      <div class='row looking'>
+      <q-space />
+        <q-btn label='Request Other Language Copy' rounded flat>
+          <q-tooltip>
+            Coming soon
+          </q-tooltip>
+        </q-btn>
+        <q-space />
+      </div>
       <div class='occupier' />
     </div>
   </q-page>
