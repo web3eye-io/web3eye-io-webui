@@ -2,6 +2,24 @@
   <q-layout view='lHh Lpr lFf'>
     <q-header elevated>
       <q-toolbar>
+        <div class='search row' v-if='displaySearchBox'>
+          <a href='#'>
+            <q-img :src='logobottom' class='logo' fit='contain' />
+          </a>
+          <q-input
+            v-model='search'
+            rounded
+            outlined
+            disable
+            dense
+            class='search-box'
+            placeholder='Coming soon'
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
         <q-space />
         <a class='tools' href='#/whitepaper'>White Paper</a>
         <a class='tools' href='#/deck'>Deck</a>
@@ -29,8 +47,16 @@
 </template>
 
 <script setup lang='ts'>
+import { ref, computed } from 'vue'
+import { useLocalSettingStore } from 'src/localstore'
 
+import logobottom from '../assets/logo/logo-bottom.png'
 import metamask from '../assets/icon/metamask.webp'
+
+const setting = useLocalSettingStore()
+const displaySearchBox = computed(() => setting.DisplayToolbarSearchBox)
+
+const search = ref('')
 
 </script>
 
@@ -42,13 +68,27 @@ import metamask from '../assets/icon/metamask.webp'
 
 .logo
   width: 120px
+  margin-right: 10px
+  line-height: 72px
+  @media (max-width: 660px)
+    display: none
 
 .tools
   margin: 0 10px 0 10px
   text-decoration: none
   color: $grey-9
+  @media (max-width: $breakpoint-sm-max)
+    display: none
 
 .footer
   color: $blue-14
   font-size: 14px
+
+.search-box
+  width: 450px
+  max-width: 100%
+
+.search
+  height: 56px
+  padding: 8px
 </style>

@@ -1,12 +1,18 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router'
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    DisplayToolbarSearchBox: boolean
+  }
+}
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: 'whitepaper', component: () => import('pages/Whitepaper.vue') }
+      { path: '', component: () => import('pages/Index.vue'), meta: { DisplayToolbarSearchBox: false } },
+      { path: 'whitepaper', component: () => import('pages/Whitepaper.vue'), meta: { DisplayToolbarSearchBox: true } }
     ],
   },
 
@@ -18,4 +24,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes;
+export default routes

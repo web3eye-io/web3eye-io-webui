@@ -1,12 +1,12 @@
-import { route } from 'quasar/wrappers';
+import { route } from 'quasar/wrappers'
+import { useLocalSettingStore } from 'src/localstore'
 import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
-  createWebHistory,
-} from 'vue-router';
-import { StateInterface } from '../store';
-import routes from './routes';
+  createWebHistory
+} from 'vue-router'
+import routes from './routes'
 
 /*
  * If not building with SSR mode, you can
@@ -17,14 +17,13 @@ import routes from './routes';
  * with the Router instance.
  */
 
-export default route<StateInterface>(function (/* { store, ssrContext } */) {
+// TODO here can invoke global store
+export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === 'history'
-    ? createWebHistory
-    : createWebHashHistory;
+    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
 
-  const Router = createRouter({
+  const router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
@@ -33,8 +32,14 @@ export default route<StateInterface>(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
-    ),
-  });
+    )
+  })
 
-  return Router;
-});
+  router.beforeEach((to, _, next) => {
+    const setting = useLocalSettingStore()
+    setting.DisplayToolbarSearchBox = to.meta?.DisplayToolbarSearchBox
+    next()
+  })
+
+  return router
+})
