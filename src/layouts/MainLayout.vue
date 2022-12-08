@@ -26,9 +26,9 @@
         <a class='tools' href='#/blog'>Blog</a>
         <a class='tools' href='#/daily'>Daily</a>
         <a class='tools' href='#/schedule'>Schedule</a>
-        <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px'>
+        <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px' @click='onMetaMaskClick'>
           <q-tooltip>
-            Coming soon
+            {{ account }}
           </q-tooltip>
         </q-btn>
       </q-toolbar>
@@ -49,6 +49,7 @@
 <script setup lang='ts'>
 import { ref, computed } from 'vue'
 import { useLocalSettingStore } from 'src/localstore'
+import Web3 from 'web3'
 
 import logobottom from '../assets/logo/logo-bottom.png'
 import metamask from '../assets/icon/metamask.webp'
@@ -56,8 +57,29 @@ import metamask from '../assets/icon/metamask.webp'
 const setting = useLocalSettingStore()
 const displaySearchBox = computed(() => setting.DisplayToolbarSearchBox)
 
+const web3 = new Web3('ws://localhost:8545')
 const search = ref('')
 
+const account = ref('')
+
+const onMetaMaskClick = () => {
+  window.ethereum
+    .request({
+      method: 'eth_requestAccounts',
+    })
+    .then(async (result) => {
+      account.value = (result as Array<string>)[0]
+      await getBalance(account.value)
+    })
+    .catch((error) => {
+      console.log('error: ', error)
+    })
+}
+
+const getBalance = async(account: string) => {
+  const balance = await web3.eth.getBalance(account)
+  console.log('balance: ', balance)
+}
 </script>
 
 <style scoped lang='sass'>
