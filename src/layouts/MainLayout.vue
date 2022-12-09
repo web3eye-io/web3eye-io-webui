@@ -26,10 +26,17 @@
         <a class='tools' href='#/blog'>Blog</a>
         <a class='tools' href='#/daily'>Daily</a>
         <a class='tools' href='#/schedule'>Schedule</a>
-        <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px' @click='onMetaMaskClick'>
-          <q-tooltip>
-            Coming soon
-          </q-tooltip>
+        <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px'>
+          <q-menu auto-close>
+            <q-list>
+              <q-item clickable>
+                <q-item-section  @click='onMetaMaskClick'>个人资料</q-item-section>
+              </q-item>
+              <q-item clickable>
+                <q-item-section @click='onTxClick'>转账</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
     </q-header>
@@ -54,6 +61,7 @@ import logobottom from '../assets/logo/logo-bottom.png'
 import metamask from '../assets/icon/metamask.webp'
 import Web3 from 'web3'
 import { Account } from 'src/localstore/web3js/types'
+import { useRouter } from 'vue-router'
 
 const setting = useLocalSettingStore()
 const displaySearchBox = computed(() => setting.DisplayToolbarSearchBox)
@@ -70,6 +78,7 @@ const onMetaMaskClick = () => {
   })
   .then((result) => {
     console.log('result: ', result)
+    web3js.setWeb3(web3)
     void getBalance()
   })
   .catch((error) => {
@@ -90,6 +99,12 @@ const getChainID = async() => {
   account.ChainID = chainID
   console.log('ChainID: ', chainID)
   web3js.setAccount(account)
+  console.log('web3: ', web3js.getAccount())
+}
+
+const router = useRouter()
+const onTxClick = () => {
+  void router.push({path: '/transaction'})
 }
 </script>
 
