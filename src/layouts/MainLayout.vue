@@ -67,7 +67,6 @@ let web3 = new Web3(window.ethereum)
 const onMetaMaskClick = () => {
   web3.eth.requestAccounts((_error, accounts) => {
     account.Address = accounts[0]
-    console.log('defaultAccount: ', web3.eth.defaultAccount)
   })
   .then((result) => {
     console.log('result: ', result)

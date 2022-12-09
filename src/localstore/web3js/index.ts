@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { Account } from './types'
 
-export const useWeb3jsStore = defineStore('local-setting', {
+export const useWeb3jsStore = defineStore('local-web3js', {
   state: () => ({
     Account: {} as Account
   }),
