@@ -28,7 +28,7 @@
         <a class='tools' href='#/schedule'>Schedule</a>
         <q-btn avatar :icon='"img:" + metamask' flat dense round size='18px' @click='onMetaMaskClick'>
           <q-tooltip>
-            {{ account }}
+            Coming soon
           </q-tooltip>
         </q-btn>
       </q-toolbar>
@@ -47,38 +47,50 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, computed } from 'vue'
-import { useLocalSettingStore } from 'src/localstore'
-import Web3 from 'web3'
+import { ref, computed, reactive } from 'vue'
+import { useLocalSettingStore, useWeb3jsStore } from 'src/localstore'
 
 import logobottom from '../assets/logo/logo-bottom.png'
 import metamask from '../assets/icon/metamask.webp'
+import Web3 from 'web3'
+import { Account } from 'src/localstore/web3js/types'
 
 const setting = useLocalSettingStore()
 const displaySearchBox = computed(() => setting.DisplayToolbarSearchBox)
 
-const web3 = new Web3('ws://localhost:8545')
 const search = ref('')
 
-const account = ref('')
+const web3js = useWeb3jsStore()
+const account = reactive({} as Account)
+let web3 = new Web3(window.ethereum)
 
 const onMetaMaskClick = () => {
-  window.ethereum
-    .request({
-      method: 'eth_requestAccounts',
-    })
-    .then(async (result) => {
-      account.value = (result as Array<string>)[0]
-      await getBalance(account.value)
-    })
-    .catch((error) => {
-      console.log('error: ', error)
-    })
+  web3.eth.requestAccounts((_error, accounts) => {
+    account.Address = accounts[0]
+    console.log('defaultAccount: ', web3.eth.defaultAccount)
+  })
+  .then((result) => {
+    console.log('result: ', result)
+    void getBalance()
+  })
+  .catch((error) => {
+    alert('please install metamask!')
+    console.log('error: ', error)
+  })
 }
 
-const getBalance = async(account: string) => {
-  const balance = await web3.eth.getBalance(account)
-  console.log('balance: ', balance)
+
+const getBalance = async() => {
+  const balance = await web3.eth.getBalance(account.Address)
+  account.Balance = web3.utils.fromWei(balance, 'ether')
+  void getChainID()
+}
+
+const getChainID = async() => {
+  const chainID = await web3.eth.getChainId()
+  account.ChainID = chainID
+  console.log('ChainID: ', chainID)
+  web3js.setAccount(account)
 }
 </script>
 
