@@ -3,6 +3,7 @@
     {{ account }}
   </div>
   <q-btn color="white" text-color="black" label="转账" @click='onClick' />
+  <q-btn color="white" text-color="black" label="GASPrice" @click='onGetGasPrice' />
 </template>
 <script setup lang='ts'>
 import { useWeb3jsStore } from 'src/localstore';
@@ -15,9 +16,8 @@ const web3 = computed(() => web3js.getWeb3())
 const onClick =  () => {
   web3.value.eth.sendTransaction({
     from: account.value.Address,
-    to: '0xD176e299fdc1E21652F0b1bDC085C97b548F5fF1',
-    value: '0x9184e72a'
-
+    to: '0x656D969e412C47E7638c8a8843F86E3CaFE9a503',
+    value: '3000000000000000000'
   })
   .then((result) => {
     console.log('result: ', result)
@@ -25,5 +25,10 @@ const onClick =  () => {
   .catch((error) => {
     console.log('error: ', error)
   })
+}
+
+const onGetGasPrice = async() => {
+  const price = await web3.value.eth.getGasPrice()
+  console.log('gasPrice: ', price)
 }
 </script>
