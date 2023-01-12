@@ -96,6 +96,4 @@ const photographer = ref(false)
 
 .upload-box
   width: 100%
-  v::deep q-uploader_header
-    color: lightwhite
 </style>
