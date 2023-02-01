@@ -33,10 +33,14 @@
         <q-uploader
           url="http://localhost:4444/upload"
           label="Custom header"
-          multiple
+          single
           color='white'
           text-color='black'
           class='upload-box'
+          auto-upload
+          @uploading='onUploading'
+          @uploaded='onUploaded'
+          @failed='onFailed'
         >
       <template v-slot:header="scope">
         <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
@@ -58,9 +62,9 @@
               <q-uploader-add-trigger />
             </q-btn>
           </div>
-          <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat >
+          <!-- <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat >
             <q-tooltip>Upload Files</q-tooltip>
-          </q-btn>
+          </q-btn> -->
 
           <q-btn v-if="scope.isUploading" icon="clear" @click="scope.abort" round dense flat >
             <q-tooltip>Abort Upload</q-tooltip>
@@ -81,6 +85,15 @@ const search = ref('')
 
 const photographer = ref(false)
 
+const onUploading = () => {
+  console.log('onUploading...')
+}
+const onUploaded = () => {
+  console.log('onUploaded...')
+}
+const onFailed = () => {
+  console.log('onFailed...')
+}
 </script>
 
 <style scoped lang='sass'>
