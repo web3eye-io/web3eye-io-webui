@@ -31,12 +31,14 @@
   <q-dialog v-model='photographer'>
       <q-card style="width: 700px; max-width: 80vw; height: 300px; max-height: 300px;">
         <q-uploader
-          url="http://localhost:4444/upload"
+          url="/api/nft-meta/search/file"
           label="Custom header"
           single
           color='white'
           text-color='black'
           class='upload-box'
+          field-name='upload'
+          :form-fields='[{name: "topN", value: "10"}]'
           auto-upload
           @uploading='onUploading'
           @uploaded='onUploaded'
@@ -57,7 +59,7 @@
           </div> -->
           <div>
             <span>Drag an image here or</span>
-            <q-btn v-if="scope.canAddFiles" flat color="primary" @click="scope.pickFiles">
+            <q-btn flat color="primary" @click="scope.pickFiles">
               upload a file
               <q-uploader-add-trigger />
             </q-btn>
