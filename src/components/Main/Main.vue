@@ -29,7 +29,7 @@
     <div class='occupier' />
   </div>
   <q-dialog v-model='photographer'>
-      <q-card style="width: 700px; max-width: 80vw; height: 260px; max-height: 260px;">
+      <q-card style="width: 700px; max-width: 80vw; height: 300px; max-height: 300px;">
         <q-uploader
           url="http://localhost:4444/upload"
           label="Custom header"
@@ -109,4 +109,6 @@ const onFailed = () => {
 
 .upload-box
   width: 100%
+  height: 300px
+  max-height: 300px
 </style>
