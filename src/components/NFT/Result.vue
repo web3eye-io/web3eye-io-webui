@@ -200,4 +200,10 @@ const splitterModel = ref(40)
     margin-top: 0
   .nft-result
     margin-left: 15px
+  
+  .content-container h5
+    margin: 20px 0 6px 0
+  .content-container div
+    height: 30px
+    line-height: 30px           
 </style>
