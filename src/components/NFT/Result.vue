@@ -1,9 +1,6 @@
 <template>
-<div>
-    <q-splitter
-      v-model='splitterModel'
-    >
-
+  <div class='nft-container'>
+    <q-splitter v-model='splitterModel'>
       <template v-slot:before>
         <!-- left -->
         <div class='q-pa-md'>
@@ -50,57 +47,157 @@
         </div>
       </template>
       <template v-slot:after>
+        <!-- right -->
         <div class='q-pa-md'>
           <q-timeline color='secondary'>
             <q-timeline-entry subtitle='February 22, 1986'>
-            </q-timeline-entry>
-
-            <q-timeline-entry
-              title='Event Title'
-              subtitle='February 21, 1986'
-              icon='delete'
-            >
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <div class="row">
+                <div class='col-md-2'>
+                  <q-img
+                    src="https://placeimg.com/500/300/nature"
+                    spinner-color="red"
+                  />
+                </div>
+                
+                <div class='column col-md-9' style='margin-left: 15px;'>
+                  <div>
+                    <span class='label'>相似度:</span>
+                    <span class='value'> 90%</span>
+                  </div>
+                  <div>
+                    <span class='label'>发布时间:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                  <div>
+                    <span class='label'>公链信息:</span>
+                    <span class='value'> 由XX发布于XXXX公链</span>
+                  </div>
+                  <div>
+                    <span class='label'>网站信息:</span>
+                    <span class='value'> 由XX上传于XXXX网站</span>
+                  </div>
+                <div>
+                    <span class='label'>作者:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                </div>
               </div>
             </q-timeline-entry>
-            <q-timeline-entry
-              title='Event Title'
-              subtitle='February 22, 1986'
-              avatar='https://cdn.quasar.dev/img/avatar2.jpg'
-            >
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-timeline-entry subtitle='February 21, 1986'>
+              <div class="row">
+                <div class='col-md-2'>
+                  <q-img
+                    src="https://placeimg.com/500/300/nature"
+                    spinner-color="red"
+                  />
+                </div>
+                <div class='column col-md-9' style='margin-left: 15px;'>
+                  <div>
+                    <span class='label'>相似度:</span>
+                    <span class='value'> 90%</span>
+                  </div>
+                  <div>
+                    <span class='label'>发布时间:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                  <div>
+                    <span class='label'>公链信息:</span>
+                    <span class='value'> 由XX发布于XXXX公链</span>
+                  </div>
+                  <div>
+                    <span class='label'>网站信息:</span>
+                    <span class='value'> 由XX上传于XXXX网站</span>
+                  </div>
+                <div>
+                    <span class='label'>作者:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                </div>
               </div>
             </q-timeline-entry>
-
-            <q-timeline-entry
-              title='Event Title'
-              subtitle='February 22, 1986'
-            >
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-timeline-entry subtitle='February 20, 1986'>
+              <div class="row">
+                <div class='col-md-2'>
+                  <q-img
+                    src="https://placeimg.com/500/300/nature"
+                    spinner-color="red"
+                  />
+                </div>
+                
+                <div class='column col-md-9 nft-result'>
+                  <div>
+                    <span class='label'>相似度:</span>
+                    <span class='value'> 90%</span>
+                  </div>
+                  <div>
+                    <span class='label'>发布时间:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                  <div>
+                    <span class='label'>公链信息:</span>
+                    <span class='value'> 由XX发布于XXXX公链</span>
+                  </div>
+                  <div>
+                    <span class='label'>网站信息:</span>
+                    <span class='value'> 由XX上传于XXXX网站</span>
+                  </div>
+                <div>
+                    <span class='label'>作者:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                </div>
               </div>
             </q-timeline-entry>
-
-            <q-timeline-entry
-              title='Event Title'
-              subtitle='February 22, 1986'
-              color='orange'
-              icon='done_all'
-            >
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-timeline-entry subtitle='February 19, 1986'>
+              <div class="row">
+                <div class='col-md-2'>
+                  <q-img
+                    src="https://placeimg.com/500/300/nature"
+                    spinner-color="red"
+                  />
+                </div>
+                
+                <div class='column col-md-9 nft-result'>
+                  <div>
+                    <span class='label'>相似度:</span>
+                    <span class='value'> 90%</span>
+                  </div>
+                  <div>
+                    <span class='label'>发布时间:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                  <div>
+                    <span class='label'>公链信息:</span>
+                    <span class='value'> 由XX发布于XXXX公链</span>
+                  </div>
+                  <div>
+                    <span class='label'>网站信息:</span>
+                    <span class='value'> 由XX上传于XXXX网站</span>
+                  </div>
+                <div>
+                    <span class='label'>作者:</span>
+                    <span class='value'> XXX</span>
+                  </div>
+                </div>
               </div>
             </q-timeline-entry>
           </q-timeline>
       </div>
-    </template>
+      </template>
     </q-splitter>
   </div>
 </template>
 <script lang='ts' setup>
 import { ref } from 'vue';
 
-const splitterModel = ref(35)
+const splitterModel = ref(40)
 </script>
+<style lang='sass' scoped>
+.nft-container
+  ::v-deep .q-splitter--vertical > .q-splitter__separator
+    width: 0px
+  ::v-deep .q-timeline
+    margin-top: 0
+  .nft-result
+    margin-left: 15px
+</style>
