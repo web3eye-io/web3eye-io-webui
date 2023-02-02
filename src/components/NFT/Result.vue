@@ -185,6 +185,9 @@
       </div>
       </template>
     </q-splitter>
+    <!-- <div class="transaction">
+      <h5>目标交易历史</h5>
+    </div> -->
   </div>
 </template>
 <script lang='ts' setup>
