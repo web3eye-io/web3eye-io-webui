@@ -41,8 +41,8 @@
           :form-fields='[{name: "topN", value: "10"}]'
           auto-upload
           @uploading='onUploading'
-          @uploaded='onUploaded'
           @failed='onFailed'
+          :factory='factoryFn'
         >
       <template v-slot:header="scope">
         <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
@@ -83,6 +83,20 @@ import { ref } from 'vue'
 
 import logo from '../../assets/logo/logo.png'
 
+export interface NFTMeta {
+  ChainType: string;
+  Contract: string;
+  Description: string;
+  Distance: number;
+  ID: string;
+  ImageURL: string;
+  Name: string;
+  TokenID: string;
+  URI: string;
+  URIType: string;
+  VectorID:string;
+  VectorState: number;
+}
 const search = ref('')
 
 const photographer = ref(false)
@@ -90,11 +104,20 @@ const photographer = ref(false)
 const onUploading = () => {
   console.log('onUploading...')
 }
-const onUploaded = () => {
+const onUploaded = (files: File) => {
   console.log('onUploaded...')
+  console.log('files: ', files)
 }
 const onFailed = () => {
   console.log('onFailed...')
+}
+
+const factoryFn = () => {
+  return new Promise((resolve)=> {
+    console.log('resolve: ', resolve)
+  }).then((data) => {
+    console.log('data: ', data)
+  })
 }
 </script>
 
