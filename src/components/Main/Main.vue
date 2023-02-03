@@ -31,7 +31,6 @@
   <q-dialog v-model='photographer'>
       <q-card style="width: 700px; max-width: 80vw; height: 300px; max-height: 300px;">
         <q-uploader
-          url="/api/nft-meta/search/file"
           label="Custom header"
           single
           color='white'
@@ -40,8 +39,8 @@
           field-name='upload'
           :form-fields='[{name: "topN", value: "10"}]'
           auto-upload
-          @uploading='onUploading'
           @failed='onFailed'
+          @uploaded='onUploaded'
           :factory='factoryFn'
         >
       <template v-slot:header="scope">
@@ -79,45 +78,55 @@
 </template>
 
 <script setup lang='ts'>
+import { read } from 'fs';
+import { useNFTMetaStore } from 'src/localstore/nft';
+import { UploadResponse } from 'src/localstore/nft/types';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 
 import logo from '../../assets/logo/logo.png'
 
-export interface NFTMeta {
-  ChainType: string;
-  Contract: string;
-  Description: string;
-  Distance: number;
-  ID: string;
-  ImageURL: string;
-  Name: string;
-  TokenID: string;
-  URI: string;
-  URIType: string;
-  VectorID:string;
-  VectorState: number;
-}
 const search = ref('')
-
 const photographer = ref(false)
 
-const onUploading = () => {
-  console.log('onUploading...')
-}
-const onUploaded = (files: File) => {
-  console.log('onUploaded...')
-  console.log('files: ', files)
-}
-const onFailed = () => {
-  console.log('onFailed...')
+const router = useRouter()
+
+const nft = useNFTMetaStore()
+
+const onUploaded = (info: {
+    /**
+     * Uploaded files
+     */
+    files: readonly any[];
+    /**
+     * XMLHttpRequest that has been used to upload this batch of files
+     */
+    xhr: XMLHttpRequest;
+  }) => {
+  const reader = new FileReader()
+  reader.readAsDataURL(info.files[0] as Blob)
+  reader.onload = function() { 
+    // console.log('result: ', this.result) // binary
+    nft.NTFMetas.Current = window.URL.createObjectURL(info.files[0] as Blob)
+	}
+  const response = JSON.parse(info.xhr.response as string) as UploadResponse
+  nft.setNftMeta(response.data)
+  void router.push({
+    path: '/result'
+  })
 }
 
 const factoryFn = () => {
-  return new Promise((resolve)=> {
-    console.log('resolve: ', resolve)
-  }).then((data) => {
-    console.log('data: ', data)
+  return new Promise((resolve) => {
+    resolve({
+      url: '/api/nft-meta/search/file',
+      method: 'POST'
+    })
   })
+}
+
+const onFailed = () => {
+  console.log('onFailed...')
 }
 </script>
 

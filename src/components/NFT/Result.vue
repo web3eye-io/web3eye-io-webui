@@ -6,10 +6,10 @@
         <div class='q-pa-md'>
           <div class='q-col-gutter-md row items-start'>
             <div class='col-12'>
-              <q-img src='https://cdn.quasar.dev/img/parallax2.jpg'>
-                <div class='absolute-bottom text-subtitle1 text-center'>
+              <q-img :src='currentImg'>
+                <!-- <div class='absolute-bottom text-subtitle1 text-center'>
                   Distance: 0
-                </div>
+                </div> -->
               </q-img>
             </div>
           </div>
@@ -49,20 +49,20 @@
       <template v-slot:after>
         <!-- right -->
         <div class='q-pa-md'>
-          <q-timeline color='secondary'>
+          <q-timeline color='secondary' v-for='nft in nfts' :key='nft.ID'>
             <q-timeline-entry subtitle='February 22, 1986'>
               <div class="row">
                 <div class='col-md-2'>
                   <q-img
-                    src="https://placeimg.com/500/300/nature"
+                    :src="nft.ImageURL"
                     spinner-color="red"
                   />
                 </div>
                 
-                <div class='column col-md-9' style='margin-left: 15px;'>
+                <div class='column col-md-9' style="margin-left: 15px;">
                   <div>
                     <span class='label'>相似度:</span>
-                    <span class='value'> 90%</span>
+                    <span class='value'>&nbsp; {{ nft.Distance }}</span>
                   </div>
                   <div>
                     <span class='label'>发布时间:</span>
@@ -70,11 +70,11 @@
                   </div>
                   <div>
                     <span class='label'>公链信息:</span>
-                    <span class='value'> 由XX发布于XXXX公链</span>
+                    <span class='value'> {{ nft.ChainType }}</span>
                   </div>
                   <div>
                     <span class='label'>网站信息:</span>
-                    <span class='value'> 由XX上传于XXXX网站</span>
+                    <span class='value'> {{ nft.Contract }}</span>
                   </div>
                 <div>
                     <span class='label'>作者:</span>
@@ -83,104 +83,7 @@
                 </div>
               </div>
             </q-timeline-entry>
-            <q-timeline-entry subtitle='February 21, 1986'>
-              <div class="row">
-                <div class='col-md-2'>
-                  <q-img
-                    src="https://placeimg.com/500/300/nature"
-                    spinner-color="red"
-                  />
-                </div>
-                <div class='column col-md-9' style='margin-left: 15px;'>
-                  <div>
-                    <span class='label'>相似度:</span>
-                    <span class='value'> 90%</span>
-                  </div>
-                  <div>
-                    <span class='label'>发布时间:</span>
-                    <span class='value'> XXX</span>
-                  </div>
-                  <div>
-                    <span class='label'>公链信息:</span>
-                    <span class='value'> 由XX发布于XXXX公链</span>
-                  </div>
-                  <div>
-                    <span class='label'>网站信息:</span>
-                    <span class='value'> 由XX上传于XXXX网站</span>
-                  </div>
-                <div>
-                    <span class='label'>作者:</span>
-                    <span class='value'> XXX</span>
-                  </div>
-                </div>
-              </div>
-            </q-timeline-entry>
-            <q-timeline-entry subtitle='February 20, 1986'>
-              <div class="row">
-                <div class='col-md-2'>
-                  <q-img
-                    src="https://placeimg.com/500/300/nature"
-                    spinner-color="red"
-                  />
-                </div>
-                
-                <div class='column col-md-9 nft-result'>
-                  <div>
-                    <span class='label'>相似度:</span>
-                    <span class='value'> 90%</span>
-                  </div>
-                  <div>
-                    <span class='label'>发布时间:</span>
-                    <span class='value'> XXX</span>
-                  </div>
-                  <div>
-                    <span class='label'>公链信息:</span>
-                    <span class='value'> 由XX发布于XXXX公链</span>
-                  </div>
-                  <div>
-                    <span class='label'>网站信息:</span>
-                    <span class='value'> 由XX上传于XXXX网站</span>
-                  </div>
-                <div>
-                    <span class='label'>作者:</span>
-                    <span class='value'> XXX</span>
-                  </div>
-                </div>
-              </div>
-            </q-timeline-entry>
-            <q-timeline-entry subtitle='February 19, 1986'>
-              <div class="row">
-                <div class='col-md-2'>
-                  <q-img
-                    src="https://placeimg.com/500/300/nature"
-                    spinner-color="red"
-                  />
-                </div>
-                
-                <div class='column col-md-9 nft-result'>
-                  <div>
-                    <span class='label'>相似度:</span>
-                    <span class='value'> 90%</span>
-                  </div>
-                  <div>
-                    <span class='label'>发布时间:</span>
-                    <span class='value'> XXX</span>
-                  </div>
-                  <div>
-                    <span class='label'>公链信息:</span>
-                    <span class='value'> 由XX发布于XXXX公链</span>
-                  </div>
-                  <div>
-                    <span class='label'>网站信息:</span>
-                    <span class='value'> 由XX上传于XXXX网站</span>
-                  </div>
-                <div>
-                    <span class='label'>作者:</span>
-                    <span class='value'> XXX</span>
-                  </div>
-                </div>
-              </div>
-            </q-timeline-entry>
+            
           </q-timeline>
       </div>
       </template>
@@ -191,9 +94,14 @@
   </div>
 </template>
 <script lang='ts' setup>
-import { ref } from 'vue';
+import { useNFTMetaStore } from 'src/localstore/nft';
+import { computed, ref } from 'vue';
 
 const splitterModel = ref(40)
+
+const nft = useNFTMetaStore()
+const nfts = computed(() => nft.NTFMetas.NTFMetas)
+const currentImg = computed(() => nft.NTFMetas.Current)
 </script>
 <style lang='sass' scoped>
 .nft-container
