@@ -11,6 +11,7 @@
       rounded
       outlined
       v-model="search"
+      @keyup.enter='handleEnter'
       placeholder="input text here"
     >
       <template v-slot:append>
@@ -21,12 +22,12 @@
       v-if='!isText'
       display-value=''
       class='input-container'
-      v-model="files"
+      v-model="file"
       rounded
       outlined
       name='upload'
       @update:model-value='onUpdate'
-      label="drag a image here"
+      placeholder="drag a image here"
     >
       <template v-slot:append>
         <InputOption v-model:option='curOption' />
@@ -49,55 +50,53 @@ const curOption = ref('File')
 const isText = computed(() => curOption.value === 'Text')
 
 const search = ref('')
-const files = ref({} as File)
+const file = ref({} as File)
 
 const router = useRouter()
 
 const nft = useNFTMetaStore()
 
-const onUpdate  = () => {
-  console.log('onUpdate')
-  onSubmit()
+const handleEnter = () => {
+  console.log('enter......')
 }
 
-const onSubmit = () => {
-  console.log('files: ', files.value)
+const onUpdate  = () => {
   const reader = new FileReader()
   reader.onload = function () {
-    // fileBinaryData = reader.result as ArrayBuffer
     console.log(reader.result)
     api.post('/api/nft-meta/search/file', {
-    'topN': 10,
-    'file': reader.result
-  }, {headers: {'Content-Type': 'multipart/form-data;charset=UTF-8'}})
-  .then((response) => {
-    //TOD
-    console.log('response: ', response.data)
-  })
-  .catch((error)=> {
-    // TODO
-  })
+      'topN': 10,
+      'file': reader.result
+    }, {
+      headers: {'Content-Type': 'multipart/form-data'}}
+    )
+    .then((response) => {
+      //TOD
+      console.log('response: ', response.data)
+    })
+    .catch((error)=> {
+      // TODO
+    })
   }
-  reader.readAsBinaryString(files.value)
-  
+  reader.readAsBinaryString(file.value)
 }
 
 const onUploaded = (info: {
     /**
-     * Uploaded files
+     * Uploaded file
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    files: readonly any[];
+    file: readonly any[];
     /**
-     * XMLHttpRequest that has been used to upload this batch of files
+     * XMLHttpRequest that has been used to upload this batch of file
      */
     xhr: XMLHttpRequest;
   }) => {
   const reader = new FileReader()
-  reader.readAsDataURL(info.files[0] as Blob)
+  reader.readAsDataURL(info.file[0] as Blob)
   reader.onload = function() { 
     // console.log('result: ', this.result) // binary
-    nft.NTFMetas.Current = window.URL.createObjectURL(info.files[0] as Blob)
+    nft.NTFMetas.Current = window.URL.createObjectURL(info.file[0] as Blob)
 	}
   const response = JSON.parse(info.xhr.response as string) as UploadResponse
   nft.setNftMeta(response.data)
