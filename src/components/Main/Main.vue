@@ -14,20 +14,20 @@
       placeholder="input text here" 
     >
       <template v-slot:append>
-        <InputOption v-model:option='option' />
+        <InputOption v-model:option='curOption' />
       </template>
     </q-input>
     <q-file
       v-if='!isText'
       class='input-container'
-      v-model="filesPng"
+      v-model="files"
       rounded
       outlined
       label="drag a image here"
       multiple
     >
       <template v-slot:append>
-        <InputOption v-model:option='option' />
+        <InputOption v-model:option='curOption' />
       </template>
     </q-file>
     <div class='occupier' />
@@ -42,12 +42,15 @@ import { useRouter } from 'vue-router';
 import InputOption from 'src/components/Main/InputOption.vue'
 import logo from '../../assets/logo/logo.png'
 
+const curOption = ref('File')
+const isText = computed(() => curOption.value === 'Text')
+
 const search = ref('')
+const files = ref(null)
 
-const option = ref('File')
-const isText = computed(() => option.value === 'Text')
 
-const filesPng = ref(null)
+
+
 const router = useRouter()
 
 const nft = useNFTMetaStore()
