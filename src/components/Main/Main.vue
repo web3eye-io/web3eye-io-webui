@@ -11,7 +11,7 @@
       rounded
       outlined
       v-model="search"
-      placeholder="input text here" 
+      placeholder="input text here"
     >
       <template v-slot:append>
         <InputOption v-model:option='curOption' />
@@ -19,12 +19,14 @@
     </q-input>
     <q-file
       v-if='!isText'
+      display-value=''
       class='input-container'
       v-model="files"
       rounded
       outlined
+      name='upload'
+      @update:model-value='onUpdate'
       label="drag a image here"
-      multiple
     >
       <template v-slot:append>
         <InputOption v-model:option='curOption' />
@@ -41,19 +43,44 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import InputOption from 'src/components/Main/InputOption.vue'
 import logo from '../../assets/logo/logo.png'
+import { api } from 'src/boot/axios';
 
 const curOption = ref('File')
 const isText = computed(() => curOption.value === 'Text')
 
 const search = ref('')
-const files = ref(null)
-
-
-
+const files = ref({} as File)
 
 const router = useRouter()
 
 const nft = useNFTMetaStore()
+
+const onUpdate  = () => {
+  console.log('onUpdate')
+  onSubmit()
+}
+
+const onSubmit = () => {
+  console.log('files: ', files.value)
+  const reader = new FileReader()
+  reader.onload = function () {
+    // fileBinaryData = reader.result as ArrayBuffer
+    console.log(reader.result)
+    api.post('/api/nft-meta/search/file', {
+    'topN': 10,
+    'file': reader.result
+  }, {headers: {'Content-Type': 'multipart/form-data;charset=UTF-8'}})
+  .then((response) => {
+    //TOD
+    console.log('response: ', response.data)
+  })
+  .catch((error)=> {
+    // TODO
+  })
+  }
+  reader.readAsBinaryString(files.value)
+  
+}
 
 const onUploaded = (info: {
     /**
