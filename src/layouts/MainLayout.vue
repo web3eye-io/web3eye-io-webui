@@ -73,8 +73,14 @@ const account = reactive({} as Account)
 let web3 = new Web3(window.ethereum)
 
 const onMetaMaskClick = () => {
-  web3.eth.requestAccounts((_error, accounts) => {
-    account.Address = accounts[0]
+  web3.eth.requestAccounts((error, accounts) => {
+    if (error) {
+      console.log('error: ', error)
+      return
+    }
+    if (accounts.length > 0) {
+      account.Address = accounts[0]
+    }
   })
   .then((result) => {
     console.log('result: ', result)
@@ -82,8 +88,8 @@ const onMetaMaskClick = () => {
     void getBalance()
   })
   .catch((error) => {
-    alert('please install metamask!')
     console.log('error: ', error)
+    window.location.href = 'https://metamask.io/download/'
   })
 }
 
