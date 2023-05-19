@@ -30,10 +30,13 @@
           <q-menu auto-close>
             <q-list>
               <q-item clickable>
-                <q-item-section  @click='onMetaMaskClick'>个人资料</q-item-section>
+                <q-item-section  @click='onMetaMaskClick'>Profile</q-item-section>
               </q-item>
               <q-item clickable>
-                <q-item-section @click='onTxClick'>转账</q-item-section>
+                <q-item-section @click='onTxClick'>Transfer</q-item-section>
+              </q-item>
+              <q-item clickable>
+                <q-item-section @click='onLogout'>Logout</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
@@ -73,12 +76,8 @@ const account = reactive({} as Account)
 let web3 = new Web3(window.ethereum)
 
 const onMetaMaskClick = () => {
-  web3.eth.requestAccounts((error, accounts) => {
-    if (error) {
-      console.log('error: ', error)
-      return
-    }
-    if (accounts.length > 0) {
+  web3.eth.requestAccounts((_, accounts) => {
+    if (accounts?.length > 0) {
       account.Address = accounts[0]
     }
   })
@@ -88,11 +87,12 @@ const onMetaMaskClick = () => {
     void getBalance()
   })
   .catch((error) => {
+    if (!window.ethereum) {
+      window.location.href = 'https://metamask.io/download/'
+    }
     console.log('error: ', error)
-    window.location.href = 'https://metamask.io/download/'
   })
 }
-
 
 const getBalance = async() => {
   const balance = await web3.eth.getBalance(account.Address)
@@ -106,6 +106,10 @@ const getChainID = async() => {
   console.log('ChainID: ', chainID)
   web3js.setAccount(account)
   console.log('web3: ', web3js.getAccount())
+}
+
+const onLogout = () => {
+  // TODO
 }
 
 const router = useRouter()
