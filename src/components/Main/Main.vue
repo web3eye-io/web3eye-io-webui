@@ -41,7 +41,7 @@
             v-model="fileName"
             :loading="uploading"
           >
-          <q-uploader-add-trigger />
+          <q-uploader-add-trigger /><!-- trigger file picker -->
           <template v-slot:append>
             <InputOption v-model:option='curOption' :disable='uploading' />
           </template>
