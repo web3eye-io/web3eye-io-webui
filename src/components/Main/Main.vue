@@ -7,7 +7,7 @@
     </div>
     <q-input
       v-if='isText'
-      class='icontainer'
+      class='icontainer input-padding'
       rounded
       outlined
       v-model="search"
@@ -41,6 +41,7 @@
             outlined
             v-model="fileName"
             :loading="uploading"
+            placeholder="drag a image here"
           >
           <q-uploader-add-trigger /><!-- trigger file picker -->
           <template v-slot:append>
@@ -121,6 +122,9 @@ const onFailed = () => {
 
 .occupier
   height: 240px
+
+.input-padding
+  padding-bottom: 5px
 
 .upload-box
   width: 650px
