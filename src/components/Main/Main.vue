@@ -28,6 +28,7 @@
       :form-fields='[{name: "topN", value: "10"}]'
       auto-upload
       flat
+      :disable='uploading'
       @failed='onFailed'
       @uploaded='onUploaded'
       @added='onAdded'
@@ -88,7 +89,7 @@ const onUploaded = (info: {
   }) => {
   const reader = new FileReader()
   reader.readAsDataURL(info.files[0] as Blob)
-  reader.onload = function() { 
+  reader.onload = function() {
     nft.NTFMetas.Current = window.URL.createObjectURL(info.files[0] as Blob)
 	}
   const response = JSON.parse(info.xhr.response as string) as UploadResponse
