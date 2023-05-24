@@ -154,6 +154,11 @@ const onTxClick = () => {
   @media (max-width: $breakpoint-sm-max)
     display: none
 
+.q-page-container
+  ::v-deep .justify-evenly
+    justify-content: center
+    min-height: 800px !important
+
 .footer
   color: $blue-14
   font-size: 14px
