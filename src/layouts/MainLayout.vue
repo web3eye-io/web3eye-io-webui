@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, computed, reactive, watch, onMounted } from 'vue'
+import { ref, computed, reactive, watch } from 'vue'
 import { useLocalSettingStore, useWeb3jsStore } from 'src/localstore'
 
 import logobottom from '../assets/logo/logo-bottom.png'

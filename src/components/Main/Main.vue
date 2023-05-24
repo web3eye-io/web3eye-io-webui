@@ -74,6 +74,7 @@ const handleEnter = () => {
 const fileName = ref('')
 const uploading = ref(false)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onAdded = (files: readonly any[]) => {
   const _file = files[0] as File
   fileName.value = _file.name
@@ -84,6 +85,7 @@ const router = useRouter()
 
 const nft = useNFTMetaStore()
 const onUploaded = (info: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     files: readonly any[];
     xhr: XMLHttpRequest;
   }) => {
