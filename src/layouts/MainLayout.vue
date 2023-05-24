@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, computed, reactive, watch } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { useLocalSettingStore, useWeb3jsStore } from 'src/localstore'
 
 import logobottom from '../assets/logo/logo-bottom.png'
@@ -74,15 +74,6 @@ const search = ref('')
 const web3js = useWeb3jsStore()
 const account = reactive({} as Account)
 let web3 = new Web3(window.ethereum)
-
-console.log('Address: ', account.Address)
-
-watch(() => account , () => {
-  // if (!account.Address) {
-  //   console.log('onMetaMaskClick...')
-  //   onMetaMaskClick()
-  // }
-})
 
 const onMetaMaskClick = () => {
   web3.eth.requestAccounts((_, accounts) => {
@@ -126,12 +117,6 @@ const onTxClick = () => {
   void router.push({path: '/transaction'})
 }
 
-// onMounted(() => {
-//   if (!account.Address) {
-//     console.log('onMounted')
-//     onMetaMaskClick()
-//   }
-// })
 </script>
 
 <style scoped lang='sass'>
