@@ -18,89 +18,137 @@
         <InputOption v-model:option='curOption' />
       </template>
     </q-input>
-    <q-file
+    <q-uploader
       v-if='!isText'
-      :clearable='uploading'
-      class='icontainer'
-      v-model="file"
-      rounded
-      outlined
-      :loading='uploading'
-      name='upload'
-      @update:model-value='onUpdate'
-      placeholder="drag a image here"
-      @clear='handleClear'
-      @rejected='handleReject'
+      class='upload-box'
+      url="/api/entrance/search/file"
+      color='white'
+      :square='false'
+      field-name='upload'
+      :form-fields='[{name: "topN", value: "10"}]'
+      auto-upload
+      flat
+      @failed='onFailed'
+      @uploaded='onUploaded'
     >
-      <template v-slot:append>
-        <InputOption v-model:option='curOption' />
+      <template v-slot:header>
+          <q-input
+            class='icontainer'
+            rounded
+            outlined
+            v-model="fileName"
+          >
+          <q-uploader-add-trigger />
+          <template v-slot:append>
+            <InputOption v-model:option='curOption' />
+          </template>
+        </q-input>
       </template>
-    </q-file>
-    <div class='occupier' />
+      <template v-slot:list>
+      </template>
+    </q-uploader>
   </div>
+    <div class='occupier' />
 </template>
 
 <script setup lang='ts'>
 import { useNFTMetaStore } from 'src/localstore/nft';
-import { NFTMeta } from 'src/localstore/nft/types';
+import { UploadResponse } from 'src/localstore/nft/types';
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import InputOption from 'src/components/Main/InputOption.vue'
 import logo from '../../assets/logo/logo.png'
-import { api } from 'src/boot/axios';
+import { useRouter } from 'vue-router'
+// import { api } from 'src/boot/axios';
 
 const curOption = ref('File')
 const isText = computed(() => curOption.value === 'Text')
 
 const search = ref('')
-const file = ref({} as File)
+const fileName = ref('')
+// const file = ref({} as File)
 
-const router = useRouter()
+// const router = useRouter()
 
-const nft = useNFTMetaStore()
+// const nft = useNFTMetaStore()
 
-const uploading = ref(false)
+// const uploading = ref(false)
 // Contract search
 const handleEnter = () => {
   console.log('enter......')
 }
 
-// image search
-const onUpdate  = () => {
-  uploading.value = true
+// // image search
+// const onUpdate  = (file: File) => {
+//   // const imageUrl = URL.createObjectURL(file);
+//   // console.log('url: ', imageUrl)
+//   // console.log('file: ', file)
+//   uploading.value = true
+//   const formData = new FormData()
+//   formData.append('topN', '10')
+//   formData.append('upload',  new Blob([file], {type: 'image/*'}))
+//   api.post('/api/entrance/search/file', formData, { headers: {'Content-Type': 'multipart/form-data'},})
+//   .then((response) => {
+//     console.log('response: ', response.data)
+//     nft.setNftMeta(response.data as Array<NFTMeta>)
+//     void router.push({
+//       path: '/result'
+//     })
+//   })
+//   .catch((error)=> {
+//     console.log('error: ', error)
+//   })
+//   .finally(() => {
+//     uploading.value = false
+//   })
+
+//   const reader = new FileReader()
+//   // reader.readAsArrayBuffer(file)
+//   reader.onload = function () {
+//     // console.log('result', reader.result)
+    
+//   }
+// }
+
+// const handleReject = () => {
+//   console.log('handleReject')
+//   uploading.value = false
+// }
+
+// const handleClear = () => {
+//   console.log('clear')
+//   file.value = {} as File
+// }
+
+const router = useRouter()
+
+const nft = useNFTMetaStore()
+const onUploaded = (info: {
+    /**
+     * Uploaded files
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    files: readonly any[];
+    /**
+     * XMLHttpRequest that has been used to upload this batch of files
+     */
+    xhr: XMLHttpRequest;
+  }) => {
   const reader = new FileReader()
-  reader.readAsBinaryString(file.value)
-  reader.onload = function () {
-    api.post('/api/nft-meta/search/file', {
-      'topN': 10,
-      'file': reader.result
-    }, {
-      headers: {'Content-Type': 'multipart/form-data'}}
-    )
-    .then((response) => {
-      console.log('response: ', response.data)
-      nft.setNftMeta(response.data as Array<NFTMeta>)
-      void router.push({
-        path: '/result'
-      })
-    })
-    .catch((error)=> {
-      console.log('error: ', error)
-    })
-    .finally(() => {
-      uploading.value = false
-    })
-  }
+  reader.readAsDataURL(info.files[0] as Blob)
+  reader.onload = function() { 
+    // console.log('result: ', this.result) // binary
+    nft.NTFMetas.Current = window.URL.createObjectURL(info.files[0] as Blob)
+	}
+  const response = JSON.parse(info.xhr.response as string) as UploadResponse
+  nft.setNftMeta(response.data)
+  void router.push({
+    path: '/result'
+  })
 }
 
-const handleReject = () => {
-  console.log('handleReject')
-  uploading.value = false
-}
-
-const handleClear = () => {
-  console.log('clear')
-  file.value = {} as File
+const onFailed = () => {
+  console.log('onFailed...')
 }
 
 </script>
@@ -122,4 +170,6 @@ const handleClear = () => {
   width: 100%
   height: 300px
   max-height: 300px
+  // ::v-deep .q-uploader__list 
+  //   display: hidden
 </style>

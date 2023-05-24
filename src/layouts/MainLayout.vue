@@ -78,10 +78,10 @@ let web3 = new Web3(window.ethereum)
 console.log('Address: ', account.Address)
 
 watch(() => account , () => {
-  if (!account.Address) {
-    console.log('onMetaMaskClick...')
-    onMetaMaskClick()
-  }
+  // if (!account.Address) {
+  //   console.log('onMetaMaskClick...')
+  //   onMetaMaskClick()
+  // }
 })
 
 const onMetaMaskClick = () => {
@@ -126,12 +126,12 @@ const onTxClick = () => {
   void router.push({path: '/transaction'})
 }
 
-onMounted(() => {
-  if (!account.Address) {
-    console.log('onMounted')
-    onMetaMaskClick()
-  }
-})
+// onMounted(() => {
+//   if (!account.Address) {
+//     console.log('onMounted')
+//     onMetaMaskClick()
+//   }
+// })
 </script>
 
 <style scoped lang='sass'>
