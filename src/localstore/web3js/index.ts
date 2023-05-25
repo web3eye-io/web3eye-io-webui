@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import Web3 from 'web3'
 import { Account } from './types'
+import { Cookies } from 'quasar'
 
 export const useWeb3jsStore = defineStore('local-web3js', {
   state: () => ({
@@ -12,7 +13,13 @@ export const useWeb3jsStore = defineStore('local-web3js', {
       return () =>  this.Account
     },
     setAccount () {
-      return (account: Account) => this.Account = account
+      return (account: Account) => {
+        Cookies.set('X-WEB3-ADDRESS', account.Address)
+        Cookies.set('X-WEB3-BALANCE', account.Balance)
+        Cookies.set('X-WEB3-CHAIN_ID', `${account.ChainID}`)
+        Cookies.set('X-WEB3-NETWORK', account.Network)
+        this.Account = account
+      }
     },
     getWeb3 () {
       return () => this.Web3
@@ -22,9 +29,16 @@ export const useWeb3jsStore = defineStore('local-web3js', {
     },
     logined () {
       // TODO
+    },
+    logout () {
+      Cookies.remove('X-WEB3-ADDRESS')
+      Cookies.remove('X-WEB3-BALANCE')
+      Cookies.remove('X-WEB3-CHAIN_ID')
+      Cookies.remove('X-WEB3-NETWORK')
+      this.Web3 = {} as Web3
     }
   },
   actions: {
-    // TODO
+    //
   }
 })

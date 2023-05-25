@@ -109,7 +109,7 @@ const getChainID = async() => {
 }
 
 const onLogout = () => {
-  // TODO
+  web3js.logout
 }
 
 const router = useRouter()
