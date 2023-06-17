@@ -4,7 +4,7 @@
       flat bordered
       :title='values?.[0]'
       :rows='values?.[1]'
-      :columns='columns'
+      :columns='(columns as never)'
       row-key='name'
       binary-state-sort
     >
