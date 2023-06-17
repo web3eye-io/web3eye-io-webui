@@ -10,9 +10,7 @@ export interface ContentItem {
   FileName: string;
 }
 
-enum BackupState {
-  DefaultBackupState  = 'DefaultBackupState',
-  BackupStateNone     = 'BackupStateNone',
+export enum BackupState {
   BackupStateCreated  = 'BackupStateCreated',
   BackupStateProposed = 'BackupStateProposed',
   BackupStateAccepted = 'BackupStateAccepted',
