@@ -1,3 +1,5 @@
+import { BaseRequest } from '../local';
+
 export interface ContentItem {
   ID: string;
   URI: string;
@@ -30,7 +32,7 @@ export interface Snapshot {
   DealID: number;
 }
 
-export interface GetSnapshotsRequest {
+export interface GetSnapshotsRequest extends BaseRequest {
   Indexes: number[];
 }
 
@@ -39,7 +41,7 @@ export interface GetSnapshotsResponse {
   Total: number;
 }
 
-export interface CreateBackupRequest {
+export interface CreateBackupRequest extends BaseRequest {
   Index: number;
 }
 
