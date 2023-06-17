@@ -38,3 +38,11 @@ export interface GetSnapshotsResponse {
   Infos: Snapshot[];
   Total: number;
 }
+
+export interface CreateBackupRequest {
+  Index: number;
+}
+
+export interface CreateBackupResponse {
+  Info: Snapshot;
+}
