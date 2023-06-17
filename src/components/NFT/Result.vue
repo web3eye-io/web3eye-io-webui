@@ -120,6 +120,24 @@ const nfts = computed(() => {
   })
   return rows
 })
+
+enum ImageState {
+  Normal = 'Normal',
+  IPFS = 'IPFS',
+  Retrieving = 'Retrieving',
+  WaitRecover = 'WaitRecover'
+}
+
+const checkImage = computed(() => (row: NFTMeta) => {
+  return () => {
+    const image = new Image()
+    image.src = row.ImageURL
+    if (image.width > 0 && image.height > 0) {
+      return ImageState.Normal
+    }
+
+  }
+})
 const currentImg = computed(() => nft.NTFMetas.Current)
 </script>
 <style lang='sass' scoped>
