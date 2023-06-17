@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { doActionWithError } from '../action'
 import { API } from './const'
-import { GetSnapshotsRequest, GetSnapshotsResponse, Snapshot } from './types'
+import { GetSnapshotsRequest, GetSnapshotsResponse, Snapshot, CreateBackupRequest, CreateBackupResponse } from './types'
 
 export const useSnapshotStore = defineStore('snapshot', {
   state: () => ({
@@ -12,7 +12,7 @@ export const useSnapshotStore = defineStore('snapshot', {
   }),
   getters: {},
   actions: {
-    GetSnapshots (req: GetSnapshotsRequest, done: (error: boolean) => void) {
+    getSnapshots (req: GetSnapshotsRequest, done: (error: boolean, rows: Snapshot[]) => void) {
       doActionWithError<GetSnapshotsRequest, GetSnapshotsResponse>(
         API.GET_SNAPSHOTS,
         req,
@@ -20,9 +20,22 @@ export const useSnapshotStore = defineStore('snapshot', {
         (resp: GetSnapshotsResponse): void => {
           this.Snapshots.Snapshots = resp.Infos
           this.Snapshots.Total = resp.Total
-          done(false)
+          done(false, resp.Infos)
         }, () => {
-          done(true)
+          done(true, [])
+      })
+    },
+    createBackup (req: CreateBackupRequest, done: (error: boolean, row: Snapshot) => void) {
+      doActionWithError<CreateBackupRequest, CreateBackupResponse>(
+        API.CREATE_BACKUP,
+        req,
+        req.Message,
+        (resp: CreateBackupResponse): void => {
+          this.Snapshots.Snapshots.push(resp.Info)
+          this.Snapshots.Total += 1
+          done(false, resp.Info)
+        }, () => {
+          done(true, {} as Snapshot)
       })
     }
   }

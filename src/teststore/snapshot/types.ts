@@ -28,6 +28,8 @@ export interface Snapshot {
   BackupState: BackupState;
   ProposalCID: string;
   DealID: number;
+  // just for frontend
+  Loading: boolean;
 }
 
 export interface GetSnapshotsRequest extends BaseRequest {

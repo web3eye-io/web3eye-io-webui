@@ -24,9 +24,13 @@
           </q-td>
           <q-td key='SnapshotURI' :props='props'>{{ props.row.SnapshotURI }}</q-td>
           <q-td key='BackupState' :props='props'>{{ props.row.BackupState }}</q-td>
-          <q-td key='ProposalCID' :props='props'>{{ props.row.ProposalCID }}</q-td>
-          <q-td key='DealID' :props='props'>{{ props.row.DealID }}</q-td>
-          <q-td key='Items' :props='props'>{{ props.row.Items?.join(',') }}</q-td>
+          <!-- <q-td key='ProposalCID' :props='props'>{{ props.row.ProposalCID }}</q-td> -->
+          <!-- <q-td key='DealID' :props='props'>{{ props.row.DealID }}</q-td> -->
+          <!-- <q-td key='Items' :props='props'>{{ props.row.Items?.join(',') }}</q-td> -->
+          <q-td key='Op' :props='props' v-if='props.row?.BackupState === BackupState.BackupStateCreated'>
+            <q-btn outline rounded color="primary" label="Backup" @click='onBackupClick(props.row)' :loading='props.row.Loading' />
+          </q-td>
+
         </q-tr>
     </template>
   </q-table>
@@ -36,7 +40,7 @@
 <script setup lang='ts'>
 import { useSnapshotStore } from 'src/teststore/snapshot';
 import { Snapshot, BackupState } from 'src/teststore/snapshot/types';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const snapshot = useSnapshotStore()
 const snapshots = computed(() => snapshot.Snapshots.Snapshots)
@@ -47,15 +51,26 @@ const snapshotsMap = computed(() => {
     const stateStr = state.toString()
     const rows = [] as Array<Snapshot>
     snapshots.value.forEach((sl) => {
+      sl.Loading = false
       if (sl.BackupState === state) {
         rows?.push(sl)
       }
     })
     rowMap.set(stateStr, rows)
   } )
-  console.log('rowMap: ', rowMap)
   return rowMap
 })
+
+const onBackupClick = (row: Snapshot) => {
+  row.Loading = true
+  snapshot.createBackup({
+    Index: row.Index,
+    Message:{}
+  }, () => {
+    row.Loading = false
+  })
+}
+
 onMounted(() => {
   if(snapshots.value?.length === 0) {
     getSnapshots()
@@ -63,7 +78,7 @@ onMounted(() => {
 })
 
 const getSnapshots = () => {
-  snapshot.GetSnapshots({
+  snapshot.getSnapshots({
     Message: {}
   }, () => {
     // TODO
@@ -74,55 +89,60 @@ const columns = computed(() => [
   {
     name: 'ID',
     label: 'ID',
-    field: 'ID',
+    field: (row: Snapshot) => row.ID,
     align: 'left',
   },
   {
     name: 'Index',
     label: 'Index',
-    field: 'Index',
+    field: (row: Snapshot) => row.Index,
     align: 'left',
   },
   {
     name: 'SnapshotCommP',
     label: 'SnapshotCommP',
-    field: 'SnapshotCommP',
+    field: (row: Snapshot) => row.SnapshotCommP,
     align: 'left',
   },
   {
     name: 'SnapshotRoot',
     label: 'SnapshotRoot',
-    field: 'SnapshotRoot',
+    field: (row: Snapshot) => row.SnapshotRoot,
     align: 'left',
   },
   {
     name: 'SnapshotURI',
     label: 'SnapshotURI',
-    field: 'SnapshotURI',
+    field: (row: Snapshot) => row.SnapshotURI,
     align: 'left',
   },
   {
     name: 'BackupState',
     label: 'BackupState',
-    field: 'BackupState',
+    field: (row: Snapshot) => row.BackupState,
     align: 'left',
   },
+  // {
+  //   name: 'ProposalCID',
+  //   label: 'ProposalCID',
+  //   field: (row: Snapshot) => row.ProposalCID,
+  //   align: 'left',
+  // },
+  // {
+  //   name: 'DealID',
+  //   label: 'DealID',
+  //   field: (row: Snapshot) => row.DealID,
+  //   align: 'left',
+  // },
+  // {
+  //   name: 'Items',
+  //   label: 'Items',
+  //   field: (row: Snapshot) => row.Items.join(','),
+  //   align: 'left',
+  // },
   {
-    name: 'ProposalCID',
-    label: 'ProposalCID',
-    field: 'ProposalCID',
-    align: 'left',
-  },
-  {
-    name: 'DealID',
-    label: 'DealID',
-    field: 'DealID',
-    align: 'left',
-  },
-  {
-    name: 'Items',
-    label: 'Items',
-    field: (row: Snapshot) => row.Items.join(','),
+    name: 'Op',
+    label: '',
     align: 'left',
   },
 ]) 
