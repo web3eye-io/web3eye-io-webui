@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia'
 import { doActionWithError } from '../action'
 import { API } from './const'
-import { GetSnapshotsRequest, GetSnapshotsResponse } from './types'
+import { GetSnapshotsRequest, GetSnapshotsResponse, Snapshot } from './types'
 
-export const useFrontendSnapshotStore = defineStore('frontend-Snapshot-v4', {
-  state: () => ({}),
+export const useSnapshotStore = defineStore('snapshot', {
+  state: () => ({
+    Snapshots: {
+      Snapshots: [] as Array<Snapshot>,
+      Total: 0,
+    }
+  }),
   getters: {},
   actions: {
     GetSnapshots (req: GetSnapshotsRequest, done: (error: boolean) => void) {
@@ -12,7 +17,9 @@ export const useFrontendSnapshotStore = defineStore('frontend-Snapshot-v4', {
         API.GET_SNAPSHOTS,
         req,
         req.Message,
-        (): void => {
+        (resp: GetSnapshotsResponse): void => {
+          this.Snapshots.Snapshots = resp.Infos
+          this.Snapshots.Total = resp.Total
           done(false)
         }, () => {
           done(true)

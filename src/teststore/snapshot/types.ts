@@ -33,7 +33,7 @@ export interface Snapshot {
 }
 
 export interface GetSnapshotsRequest extends BaseRequest {
-  Indexes: number[];
+  Indexes?: number[];
 }
 
 export interface GetSnapshotsResponse {
